@@ -48,9 +48,11 @@ pub fn build(b: *Build) void {
     inline for (examples) |example| {
         const exe = b.addExecutable(.{
             .name = example,
-            .root_source_file = b.path("examples/" ++ example ++ ".zig"),
-            .target = target,
-            .optimize = optimize,
+            .root_module = b.createModule(.{
+                .root_source_file = b.path("examples/" ++ example ++ ".zig"),
+                .target = target,
+                .optimize = optimize,
+            }),
         });
 
         const run_cmd = b.addRunArtifact(exe);
